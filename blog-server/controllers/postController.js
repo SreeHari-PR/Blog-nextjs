@@ -6,9 +6,10 @@ exports.createPost = async (req, res) => {
     const post = new Post({
       title: req.body.title,
       content: req.body.content,
-      imageUrl: req.file ? `/uploads/${req.file.filename}` : null,
+      imageUrl: req.body.imageUrl,
       author: req.userData.userId,
     });
+    console.log('Post:', post);
     await post.save();
     res.status(201).json(post);
   } catch (error) {
@@ -63,7 +64,7 @@ exports.updatePost = async (req, res) => {
     const updates = {
       title: req.body.title,
       content: req.body.content,
-      imageUrl: req.file ? `/uploads/${req.file.filename}` : undefined,
+      imageUrl: req.body.imageUrl,
     };
 
     const post = await Post.findOneAndUpdate(
